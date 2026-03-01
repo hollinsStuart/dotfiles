@@ -1,0 +1,65 @@
+{
+  "std::cout": {
+    "prefix": "std::cout",
+    "body": [
+      "std::cout << ${0} << '\\n';"
+    ]
+  },
+  "#if": {
+    "prefix": "#if",
+    "body": [
+      "#ifdef USE_DD4HEP",
+      "${1}",
+      "#endif"
+    ]
+  },
+  "pragma_once": {
+    "prefix": "pragma",
+    "body": [
+      "#pragma once"
+    ]
+  },
+  "include": {
+    "prefix": "inc",
+    "body": [
+      "#include <${1:header}>"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "int main(int argc, char** argv) {",
+      "  ${0}",
+      "  return 0;",
+      "}"
+    ]
+  },
+  "fori": {
+    "prefix": "for",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:N}; ++${1}) {",
+      "  ${0}",
+      "}"
+    ]
+  },
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class ${1:Name} {",
+      "public:",
+      "  ${1}();",
+      "  ~${1}();",
+      "private:",
+      "  ${0}",
+      "};"
+    ]
+  },
+  "header_guard": {
+    "prefix": "guard",
+    "body": [
+      "#ifndef ${1:HEADER_GUARD}",
+      "#define ${1:HEADER_GUARD}",
+      "${0}",
+      "#endif // ${1:HEADER_GUARD}"
+    ]
+  }

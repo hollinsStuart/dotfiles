@@ -1,0 +1,35 @@
+{
+  "df.Histo1D": {
+    "prefix": "histo1d",
+    "body": ["df.Histo1D((${1:binning}), \"${2:branch}\")"]
+  },
+  "Read Yaml": {
+    "prefix": "ryaml",
+    "body": [
+      "with open(${1:yamlfile}, 'r') as f:",
+      "\t${2:content} = yaml.safe_load(f)",
+      "\t${0}"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "def main():",
+      "\t${0}",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "\tmain()"
+    ]
+  },
+  "Import ROOT": {
+    "prefix": "root",
+    "body": ["import ROOT", "ROOT.gROOT.SetBatch(True)"]
+  },
+  "import matplotlib": {
+    "prefix": "mpl",
+    "body": ["import matplotlib as mpl", "mpl.use(\"Agg\")"]
+  },
+
+}
+
