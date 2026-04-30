@@ -29,7 +29,5 @@
   "import matplotlib": {
     "prefix": "mpl",
     "body": ["import matplotlib as mpl", "mpl.use(\"Agg\")"]
-  },
-
+  }
 }
-

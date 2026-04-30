@@ -71,7 +71,7 @@ require("render-markdown").setup({
 	heading = {
 		icons = { " 󰼏 ", " 󰎨 ", " 󰼑 ", " 󰎲 ", " 󰼓 ", " 󰎴 " },
 		border = true,
-		render_modes = true, -- keep rendering while inserting
+		render_modes = { "n", "c" }, -- keep rendering while inserting
 	},
 	checkbox = {
 		unchecked = {

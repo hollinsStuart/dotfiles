@@ -10,7 +10,7 @@ local types = require 'luasnip.util.types'
 
 local function node_with_virtual_text(pos, node, text)
   local nodes
-  if node.type == types.textNode then
+  if node.type == types.text_node then
     node.pos = 2
     nodes = { i(1), node }
   else

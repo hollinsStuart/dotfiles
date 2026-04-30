@@ -6,21 +6,22 @@ return {
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 
 			python = { "isort", "black" },
-			rust = { "rustfmt", lsp_format = "fallback" },
+			rust = { "rustfmt" },
 
 			go = { "goimports", "gofmt" },
 			cpp = { "clang-format" },
-			markdown = { "prettierd", "prettier", "markdownlint" },
+			markdown = { "prettierd", "prettier", stop_after_first = true },
 
-			json = { "prettierd", "prettier", "jq" }, -- jq as final fallback
-			toml = { "taplo" }, -- Taplo formatter for TOML
-			yaml = { "prettierd", "prettier", "yamlfmt", "yamllint" },
+			json = { "prettierd", "prettier", "jq", stop_after_first = true },
+			toml = { "taplo" },
+			yaml = { "prettierd", "prettier", "yamlfmt", stop_after_first = true },
 		},
 
 		format_on_save = function(bufnr)
 			-- Optional: disable for big files
 			local max_size = 200 * 1024 -- 200kb
-			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+			local name = vim.api.nvim_buf_get_name(bufnr)
+			local ok, stats = pcall(vim.loop.fs_stat, name)
 			if ok and stats and stats.size > max_size then
 				vim.notify(
 					"Skipping format (file > 200KB): " .. vim.fs.basename(name),
