@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy", -- load lazily (after UI is ready)
 	config = function()
 		-- Optional: keybind to trigger :Switch manually
-		vim.keymap.set("n", "<leader>s", ":Switch<CR>", { noremap = true, silent = true, desc = "Switch word" })
+		vim.keymap.set("n", "gs", ":Switch<CR>", { noremap = true, silent = true, desc = "Switch word" })
 
 		-- Example: define a custom switch pair
 		vim.g.switch_custom_definitions = {

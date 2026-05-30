@@ -53,6 +53,8 @@ return {
 		sources = {
 			providers = {
 				snippets = { score_offset = 1000 },
+				lsp = { score_offset = 100 },
+				buffer = { score_offset = -10 },
 			},
 		},
 	},

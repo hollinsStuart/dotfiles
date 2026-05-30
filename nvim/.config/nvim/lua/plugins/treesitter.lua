@@ -34,6 +34,7 @@ return {
 				"vimdoc",
 				"c",
 				"cpp",
+				"doxygen",
 				"python",
 				"go",
 				"rust",

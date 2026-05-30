@@ -5,7 +5,7 @@ return {
 		"saghen/blink.cmp",
 
 		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/neodev.nvim", opts = {} },
+		{ "folke/lazydev.nvim", ft = "lua", opts = {} },
 	},
 	config = function()
 		local mason_lspconfig = require("mason-lspconfig")
@@ -49,6 +49,26 @@ return {
 						},
 					},
 				}
+			end
+
+			if server == "pyright" then
+				opts.before_init = function(_, config)
+					-- Walk up from cwd to find a venv (handles .venv, venv, .env, env)
+					local venv_names = { ".venv", "venv", ".env", "env" }
+					local cwd = vim.fn.getcwd()
+					for _, name in ipairs(venv_names) do
+						local found = vim.fn.finddir(name, cwd .. ";")
+						if found ~= "" then
+							local python = vim.fn.fnamemodify(found, ":p") .. "bin/python"
+							if vim.fn.executable(python) == 1 then
+								config.settings = config.settings or {}
+								config.settings.python = config.settings.python or {}
+								config.settings.python.pythonPath = python
+								break
+							end
+						end
+					end
+				end
 			end
 
 			-- add more if you want, e.g.
