@@ -39,6 +39,9 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+opt.undofile = true -- persist undo history across sessions
+
+opt.scrolloff = 8 -- keep context lines above/below the cursor
 
 vim.o.winborder = "rounded"
 

@@ -12,13 +12,10 @@ return {
 		end
 	end,
 	config = function()
-		require("mini.ai").setup({
-			mappings = {
-				goto_left = "[",
-				goto_right = "]",
-			},
+		require("mini.ai").setup({})
+		require("mini.bracketed").setup({
+			treesitter = { suffix = "" }, -- keep ]t / [t for todo-comments
 		})
-		require("mini.bracketed").setup({})
 		require("mini.comment").setup({})
 
 		local mocha = {

@@ -8,12 +8,7 @@ return {
 				"ts_ls",
 				"html",
 				"cssls",
-				"tailwindcss",
-				"svelte",
 				"lua_ls",
-				"graphql",
-				"emmet_ls",
-				"prismals",
 				"pyright",
 				"eslint",
 				-- additional servers requested by user
@@ -46,12 +41,10 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		opts = {
 			ensure_installed = {
+				"prettierd", -- prettier daemon (conform's first choice)
 				"prettier", -- prettier formatter
 				"stylua", -- lua formatter
-				"isort", -- python formatter
-				"black", -- python formatter
-				"pylint",
-				"eslint_d",
+				-- python formatting uses ruff (~/.local/bin), not mason
 			},
 		},
 		dependencies = {

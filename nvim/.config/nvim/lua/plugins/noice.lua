@@ -23,15 +23,8 @@ return {
 
 			-- ✅ keep these if you like Noice's LSP UI
 			hover = { enabled = true },
-			signature = {
-				enabled = true,
-				auto_open = {
-					enabled = true,
-					trigger = true,
-					luasnip = true,
-					throttle = 50,
-				},
-			},
+			-- blink.cmp already shows signature help; two popups would stack
+			signature = { enabled = false },
 		},
 	},
 }
