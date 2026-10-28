@@ -3,6 +3,7 @@ return
 {
 	"mikavilpas/yazi.nvim",
 	version = "*", -- use the latest stable version
+	submodules = false, -- the bundled submodule is only used for upstream development/tests
 	event = "VeryLazy",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim", lazy = true },

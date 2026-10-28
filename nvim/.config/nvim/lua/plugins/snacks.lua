@@ -74,6 +74,25 @@ return {
 		picker = {
 			enabled = true,
 			sources = {
+				buffers = {
+					win = {
+						input = {
+							footer_keys = { "<CR>", "<c-x>", "<F1>" },
+							footer_pos = "left",
+							keys = {
+								["<CR>"] = { "confirm", mode = { "n", "i" }, desc = "Open" },
+								["<c-x>"] = { "bufdelete", mode = { "n", "i" }, desc = "Remove" },
+								["<F1>"] = { "toggle_help_input", mode = { "n", "i" }, desc = "Help" },
+							},
+						},
+						list = {
+							keys = {
+								["<c-x>"] = { "bufdelete", desc = "Remove" },
+								["<F1>"] = { "toggle_help_list", desc = "Help" },
+							},
+						},
+					},
+				},
 				explorer = {
 					status = { opened = false },
 					include = { ".gitignore", ".config" },
@@ -85,6 +104,9 @@ return {
 		scope = { enabled = true },
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
+		terminal = {
+			win = { position = "right", width = 0.35 },
+		},
 		words = { enabled = true },
 		styles = {
 			lazygit = {
@@ -458,7 +480,8 @@ return {
 			function()
 				Snacks.terminal()
 			end,
-			desc = "Toggle Terminal",
+			mode = { "n", "t" },
+			desc = "Toggle Right Terminal",
 		},
 		{
 			"]]",

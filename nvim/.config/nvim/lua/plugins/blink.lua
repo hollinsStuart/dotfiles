@@ -1,10 +1,41 @@
+-- Give useful LSP symbols a small boost without hiding better text matches.
+local function semantic_score(item)
+	local kind = vim.lsp.protocol.CompletionItemKind
+	local preferred = {
+		[kind.Variable] = true,
+		[kind.Constant] = true,
+		[kind.Field] = true,
+		[kind.Property] = true,
+		[kind.Function] = true,
+		[kind.Method] = true,
+	}
+	local bonus = item.source_id == "lsp" and preferred[item.kind] and 4 or 0
+	return item.score + bonus
+end
+
 return {
 	"saghen/blink.cmp",
 	event = { "BufReadPost", "BufNewFile" },
 	version = "1.*",
 	dependencies = { "xzbdmw/colorful-menu.nvim", "rafamadriz/friendly-snippets" },
 	opts = {
+		fuzzy = {
+			sorts = {
+				"exact",
+				function(a, b)
+					local a_score, b_score = semantic_score(a), semantic_score(b)
+					if a_score ~= b_score then
+						return a_score > b_score
+					end
+				end,
+				"sort_text",
+				"label",
+			},
+		},
 		completion = {
+			list = {
+				selection = { preselect = true, auto_insert = false },
+			},
 			documentation = {
 				auto_show = true,
 			},
@@ -27,7 +58,11 @@ return {
 			},
 		},
 		keymap = {
-			-- Navigation keybindings (preserving nvim-cmp style)
+			preset = "default",
+			-- Arrow keys select candidates without changing the typed text.
+			["<Up>"] = { "select_prev", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			-- Keep the existing navigation shortcuts as alternatives.
 			["<C-k>"] = { "select_prev", "fallback" },
 			["<C-j>"] = { "select_next", "fallback" },
 			-- Documentation scrolling (preserving nvim-cmp style)
@@ -35,16 +70,36 @@ return {
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 			["<C-u>"] = { "scroll_documentation_up", "fallback" },
 			["<C-d>"] = { "scroll_documentation_down", "fallback" },
-			-- Completion control (preserving nvim-cmp style)
+			-- Snippet placeholders take priority over accepting a completion.
+			["<Tab>"] = { "snippet_forward", "select_and_accept", "fallback" },
+			["<S-Tab>"] = { "snippet_backward", "fallback" },
+			-- Completion is accepted explicitly; Enter always starts a new line.
 			["<C-Space>"] = { "show", "fallback" },
 			["<C-e>"] = { "hide", "fallback" },
-			["<CR>"] = { "accept", "fallback" },
+			["<C-y>"] = { "select_and_accept", "fallback" },
+			["<CR>"] = {
+				function(cmp)
+					cmp.hide()
+				end,
+				"fallback",
+			},
 		},
 		signature = {
 			enabled = true,
 		},
 		cmdline = {
+			keymap = {
+				preset = "cmdline",
+				["<Up>"] = { "select_prev", "fallback" },
+				["<Down>"] = { "select_next", "fallback" },
+				["<Left>"] = false,
+				["<Right>"] = false,
+				["<Tab>"] = { "select_and_accept", "show", "fallback" },
+			},
 			completion = {
+				list = {
+					selection = { preselect = true, auto_insert = false },
+				},
 				menu = {
 					auto_show = true,
 				},
@@ -52,8 +107,8 @@ return {
 		},
 		sources = {
 			providers = {
-				snippets = { score_offset = 1000 },
-				lsp = { score_offset = 100 },
+				snippets = { score_offset = -10 },
+				lsp = { score_offset = 0 },
 				buffer = { score_offset = -10 },
 			},
 		},

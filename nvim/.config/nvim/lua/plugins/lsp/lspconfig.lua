@@ -4,7 +4,16 @@ return {
 	dependencies = {
 		"saghen/blink.cmp",
 
-		{ "antosha417/nvim-lsp-file-operations", config = true },
+		{
+			"antosha417/nvim-lsp-file-operations",
+			config = function()
+				-- The plugin checks log size before its first log entry creates the file.
+				local cache = vim.fn.stdpath("cache")
+				vim.fn.mkdir(cache, "p")
+				vim.fn.writefile({}, vim.fs.joinpath(cache, "lsp-file-operations.log"), "a")
+				require("lsp-file-operations").setup()
+			end,
+		},
 		{ "folke/lazydev.nvim", ft = "lua", opts = {} },
 	},
 	config = function()
@@ -52,6 +61,10 @@ return {
 			end
 
 			if server == "pyright" then
+				-- Prefer the newer Homebrew Pyright over the Mason copy.
+				if vim.fn.executable("/opt/homebrew/bin/pyright-langserver") == 1 then
+					opts.cmd = { "/opt/homebrew/bin/pyright-langserver", "--stdio" }
+				end
 				opts.before_init = function(_, config)
 					-- Walk up from cwd to find a venv (handles .venv, venv, .env, env)
 					local venv_names = { ".venv", "venv", ".env", "env" }
